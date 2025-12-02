@@ -357,7 +357,7 @@ let notes = [];
 
 /* Load note từ backend */
 async function loadNotes() {
-    const res = await fetch("http://localhost:3000/notes"); // sửa URL khi deploy
+    const res = await fetch("https://lovedate-x1j3.onrender.com/notes"); // sửa URL khi deploy
     notes = await res.json();
     notes.forEach(n => createSatellite(n));
 }
@@ -464,7 +464,7 @@ async function addNote() {
     let note = { text, img: imgBase64, mood, createdAt: Date.now() };
 
     /* Gửi backend lưu MongoDB */
-    await fetch("http://localhost:3000/addNote", {
+    await fetch("https://lovedate-x1j3.onrender.com/addNote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(note)
