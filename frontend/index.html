@@ -1,516 +1,531 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<title>Love Heart Planet 3D ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="icon" href="icons8-heart-64.png" />
+    <title>Yêu lắm cơ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: radial-gradient(circle at center, #1a002a, #000);
-        font-family: "Segoe UI", sans-serif;
-    }
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a002a, #000);
+            font-family: "Segoe UI", sans-serif;
+        }
 
-    /* ==== CENTER INFO ==== */
-    #centerInfo {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        pointer-events: none;
-    }
+        /* ==== CENTER INFO ==== */
+        #centerInfo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: none;
+        }
 
-    #centerInfo .row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 60px;
-    }
+        #centerInfo .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+        }
 
-    .person {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        .person {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .person img {
-        width: 95px;
-        height: 95px;
-        object-fit: cover;
-        border-radius: 20px;
-        box-shadow: 0 0 20px #ff99dd;
-    }
+        .person img {
+            width: 95px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #ff99dd;
+        }
 
-    .name {
-        margin-top: 6px;
-        font-size: 17px;
-        color: white;
-        text-shadow: 0 0 10px #fff;
-    }
+        .name {
+            margin-top: 6px;
+            font-size: 17px;
+            color: white;
+            text-shadow: 0 0 10px #fff;
+        }
 
-    #dayCount {
-        font-size: 38px;
-        font-weight: bold;
-        color: white;
-        text-shadow: 0 0 15px #ff88cc;
-    }
+        #dayCount {
+            font-size: 38px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 15px #ff88cc;
+        }
 
-    .quote {
-        font-size: 14px;
-        color: #eee;
-        margin-top: 8px;
-    }
+        .quote {
+            font-size: 14px;
+            color: #eee;
+            margin-top: 8px;
+        }
 
-    /* ==== ADD BUTTON ==== */
-    #addBtn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #ff4d79;
-        padding: 12px 18px;
-        border-radius: 12px;
-        color: white;
-        border: none;
-        font-size: 16px;
-        z-index: 10;
-        cursor: pointer;
-    }
+        /* ==== ADD BUTTON ==== */
+        #addBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff4d79;
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: white;
+            border: none;
+            font-size: 16px;
+            z-index: 10;
+            cursor: pointer;
+        }
 
-    /* ============ POPUP ============ */
-    #popup, #addPopup {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.7);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 20;
-        pointer-events: auto;
-    }
+        /* ============ POPUP ============ */
+        #popup,
+        #addPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            pointer-events: auto;
+        }
 
-    #popup-box {
-        position: relative;
-        width: 460px;
-        background: #fff;
-        padding: 28px;
-        border-radius: 14px;
-        animation: openLetter 0.35s ease-out;
-        pointer-events: auto;
-    }
+        #popup-box {
+            position: relative;
+            width: 460px;
+            background: #fff;
+            padding: 28px;
+            border-radius: 14px;
+            animation: openLetter 0.35s ease-out;
+            pointer-events: auto;
+        }
 
-    /* OPEN LETTER ANIMATION */
-    @keyframes openLetter {
-        0% { transform: scale(0.5) translateY(40px); opacity: 0; }
-        70% { transform: scale(1.05) translateY(0); opacity: 1; }
-        100% { transform: scale(1); }
-    }
+        /* OPEN LETTER ANIMATION */
+        @keyframes openLetter {
+            0% {
+                transform: scale(0.5) translateY(40px);
+                opacity: 0;
+            }
 
-    /* Close Button (X) */
-    .close-btn {
-        position: absolute;
-        top: -12px;
-        right: -12px;
-        background: #ff4d6d;
-        color: white;
-        width: 34px;
-        height: 34px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 20px;
-        border-radius: 50%;
-        border: 2px solid white;
-        cursor: pointer;
-        z-index: 9999;
-        transition: 0.15s;
-        box-shadow: 0 0 10px #ff85a0;
-    }
-    .close-btn:hover {
-        background: #ff234e;
-        transform: scale(1.1);
-    }
+            70% {
+                transform: scale(1.05) translateY(0);
+                opacity: 1;
+            }
 
-    /* ============ ADD POPUP ============ */
-    #addBox {
-        background: #fff;
-        padding: 20px;
-        border-radius: 14px;
-        width: 350px;
-        animation: pop .25s ease;
-    }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-    @keyframes pop {
-        from { transform: scale(0.6); opacity: 0; }
-        to   { transform: scale(1);   opacity: 1; }
-    }
+        .close-btn {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: #ff4d6d;
+            color: white;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            z-index: 9999;
+            transition: 0.15s;
+            box-shadow: 0 0 10px #ff85a0;
+        }
 
-    #addBox textarea,
-    #addBox input {
-        width: 100%;
-        padding: 8px;
-        margin-top: 6px;
-        border-radius: 6px;
-        border: 1px solid #aaa;
-    }
+        .close-btn:hover {
+            background: #ff234e;
+            transform: scale(1.1);
+        }
 
-    .mood-row {
-        display: flex;
-        gap: 12px;
-        margin-top: 10px;
-    }
+        /* FORM ADD NOTE */
+        #addBox {
+            background: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            width: 350px;
+            animation: pop .25s ease;
+        }
 
-    .mood-chip {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        display: inline-block;
-    }
+        @keyframes pop {
+            from {
+                transform: scale(0.6);
+                opacity: 0;
+            }
 
-    /* ===== NOTE LETTER ===== */
-    .note-letter {
-        display: flex;
-        gap: 18px;
-    }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
 
-    .note-img {
-        width: 165px;
-        height: 165px;
-        object-fit: cover;
-        border-radius: 14px;
-        box-shadow: 0 0 10px rgba(255,255,255,0.6);
-    }
+        #addBox textarea,
+        #addBox input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+        }
 
-    .note-paper {
-        flex: 1;
-        padding: 18px;
-        border-radius: 12px;
-        white-space: pre-wrap;
-        font-size: 18px;
-    }
+        .mood-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
 
-    /* Mood colors */
-    .note-paper.vui {
-        background: #ffe4f2;
-        border: 1px solid #ffb5d6;
-        box-shadow: 0 0 12px #ffbadc;
-    }
+        .note-letter {
+            display: flex;
+            gap: 18px;
+        }
 
-    .note-paper.buon {
-        background: #e2f1ff;
-        border: 1px solid #9ecfff;
-        box-shadow: 0 0 12px #b5ddff;
-    }
+        .note-img {
+            width: 165px;
+            height: 165px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+        }
 
-    .center-note {
-        text-align: center;
-    }
-</style>
+        .note-paper {
+            flex: 1;
+            padding: 18px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            font-size: 18px;
+        }
+
+        .note-paper.vui {
+            background: #ffe4f2;
+            border: 1px solid #ffb5d6;
+            box-shadow: 0 0 12px #ffbadc;
+        }
+
+        .note-paper.buon {
+            background: #e2f1ff;
+            border: 1px solid #9ecfff;
+            box-shadow: 0 0 12px #b5ddff;
+        }
+
+        .center-note {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
 
-<canvas id="canvas" style="pointer-events:none;"></canvas>
+    <canvas id="canvas" style="pointer-events:none;"></canvas>
 
-<!-- ==== CENTER INFO ==== -->
-<div id="centerInfo">
-    <div class="row">
-        <div class="person">
-            <img src="me.jpg">
-            <div class="name">Thíu Kịt</div>
-        </div>
+    <!-- ==== CENTER INFO ==== -->
+    <div id="centerInfo">
+        <div class="row">
+            <div class="person">
+                <img src="me.jpg">
+                <div class="name">Thíu Kịt</div>
+            </div>
 
-        <div class="middle">
-            <div id="dayCount">0 ngày</div>
-            <div class="quote">Tụi mình cố gắng vì nhau em nhé 💖</div>
-        </div>
+            <div class="middle">
+                <div id="dayCount">0 ngày</div>
+                <div class="quote">Tụi mình cố gắng vì nhau em nhé 💖</div>
+            </div>
 
-        <div class="person">
-            <img src="cucdang.jpg">
-            <div class="name">Hậu Hậu</div>
+            <div class="person">
+                <img src="cucdang.jpg">
+                <div class="name">Hậu Hậu</div>
+            </div>
         </div>
     </div>
-</div>
 
-<button id="addBtn">+ Thêm kỷ niệm</button>
+    <button id="addBtn">+ Thêm kỷ niệm</button>
 
-<!-- ==== NOTE POPUP ==== -->
-<div id="popup">
-    <div id="popup-box">
-        <div id="popup-content"></div>
-        <div class="close-btn" onclick="popup.style.display='none'">×</div>
-    </div>
-</div>
-
-<!-- ==== ADD POPUP ==== -->
-<div id="addPopup">
-    <div id="addBox">
-        <h3>Thêm kỷ niệm 💛</h3>
-
-        <textarea id="noteText" placeholder="Nhập nội dung..." rows="3"></textarea>
-        <input type="file" id="noteImg" accept="image/*">
-
-        <div class="mood-row">
-            <label><input type="radio" name="mood" value="vui" checked>
-                <span class="mood-chip" style="background:#ff4d6d"></span> Vui
-            </label>
-            <label><input type="radio" name="mood" value="buon">
-                <span class="mood-chip" style="background:#4da6ff"></span> Buồn
-            </label>
+    <!-- ==== NOTE POPUP ==== -->
+    <div id="popup">
+        <div id="popup-box">
+            <div id="popup-content"></div>
+            <div class="close-btn" onclick="popup.style.display='none'">×</div>
         </div>
-
-        <button onclick="addNote()"
-            style="margin-top:12px;padding:10px 12px;background:#2b1055;color:white;border:none;border-radius:8px;">
-            Ghim
-        </button>
-
-        <button onclick="addPopup.style.display='none'"
-            style="margin-top:6px;padding:8px;background:#ccc;border:none;border-radius:8px;">
-            Hủy
-        </button>
     </div>
-</div>
+
+    <!-- ==== ADD POPUP ==== -->
+    <div id="addPopup">
+        <div id="addBox">
+            <h3>Thêm kỷ niệm 💛</h3>
+
+            <textarea id="noteText" placeholder="Nhập nội dung..." rows="3"></textarea>
+            <input type="file" id="noteImg" accept="image/*">
+
+            <div class="mood-row">
+                <label><input type="radio" name="mood" value="vui" checked> ❤️ Vui</label>
+                <label><input type="radio" name="mood" value="buon"> 💧 Buồn</label>
+            </div>
+
+            <button onclick="addNote()"
+                style="margin-top:12px;padding:10px 12px;background:#2b1055;color:white;border:none;border-radius:8px;">
+                Ghim
+            </button>
+
+            <button onclick="addPopup.style.display='none'"
+                style="margin-top:6px;padding:8px;background:#ccc;border:none;border-radius:8px;">
+                Hủy
+            </button>
+        </div>
+    </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
 
-/* ================================
-   NGÀY YÊU
-================================ */
-const startDate = new Date("2025-10-26");
-function updateDays() {
-    let days = Math.floor((new Date() - startDate) / 86400000);
-    document.getElementById("dayCount").innerText = days + " ngày";
-}
-updateDays();
-setInterval(updateDays, 1000);
+        /* =====================================
+           NGÀY YÊU
+        ===================================== */
+        const startDate = new Date("2025-10-26");
+        function updateDays() {
+            let days = Math.floor((new Date() - startDate) / 86400000);
+            document.getElementById("dayCount").innerText = days + " ngày";
+        }
+        updateDays();
+        setInterval(updateDays, 1000);
 
+        /* =====================================
+           THREE.JS
+        ===================================== */
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById("canvas"),
+            antialias: true,
+            alpha: true
+        });
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.setPixelRatio(devicePixelRatio);
 
-/* ================================
-   THREE.JS SETUP
-================================ */
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById("canvas"),
-    antialias: true,
-    alpha: true
-});
-renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(devicePixelRatio);
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 1000);
+        camera.position.z = 120;
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 1000);
-camera.position.z = 120;
+        scene.add(new THREE.AmbientLight(0x333333));
+        const light = new THREE.PointLight(0xffffff, 2);
+        light.position.set(40, 40, 40);
+        scene.add(light);
 
-scene.add(new THREE.AmbientLight(0x333333));
+        /* HEART SHAPE */
+        function makeHeart(scale) {
+            const s = new THREE.Shape();
+            s.moveTo(5, 5);
+            s.bezierCurveTo(5, 5, 4, 0, 0, 0);
+            s.bezierCurveTo(-6, 0, -6, 7, -6, 7);
+            s.bezierCurveTo(-6, 11, -3, 15.4, 5, 19);
+            s.bezierCurveTo(12, 15.4, 16, 11, 16, 7);
+            s.bezierCurveTo(16, 7, 16, 0, 10, 0);
+            s.bezierCurveTo(7, 0, 5, 5, 5, 5);
 
-const light = new THREE.PointLight(0xffffff, 2);
-light.position.set(40, 40, 40);
-scene.add(light);
+            const geo = new THREE.ExtrudeGeometry(s, {
+                depth: 3,
+                bevelEnabled: true,
+                bevelSize: 0.7,
+                bevelThickness: 0.7
+            });
 
+            geo.scale(scale, scale, scale * 0.5);
+            geo.center();
+            return geo;
+        }
 
-/* ================================
-   HEART SHAPE
-================================ */
-function makeHeart(scale) {
-    const s = new THREE.Shape();
-    s.moveTo(5,5);
-    s.bezierCurveTo(5,5,4,0,0,0);
-    s.bezierCurveTo(-6,0,-6,7,-6,7);
-    s.bezierCurveTo(-6,11,-3,15.4,5,19);
-    s.bezierCurveTo(12,15.4,16,11,16,7);
-    s.bezierCurveTo(16,7,16,0,10,0);
-    s.bezierCurveTo(7,0,5,5,5,5);
+        /* BIG HEART */
+        const bigHeart = new THREE.Mesh(
+            makeHeart(3.3),
+            new THREE.MeshStandardMaterial({
+                color: 0xff4081,
+                emissive: 0xff1f7a,
+                emissiveIntensity: 0.9
+            })
+        );
+        bigHeart.rotation.set(9.5, Math.PI, 0);
+        scene.add(bigHeart);
 
-    const geo = new THREE.ExtrudeGeometry(s,{
-        depth:3,
-        bevelEnabled:true,
-        bevelSize:0.7,
-        bevelThickness:0.7
-    });
+        /* LOADING NOTES */
+        let notes = [];
+        let satellites = [];
 
-    geo.scale(scale, scale, scale*0.5);
-    geo.center();
-    return geo;
-}
+        async function loadNotes() {
+            const res = await fetch("https://lovedate-x1j3.onrender.com/notes");
+            notes = await res.json();
+            notes.forEach(n => createSatellite(n));
+        }
+        loadNotes();
 
-/* BIG HEART */
-const bigHeart = new THREE.Mesh(
-    makeHeart(3.3),
-    new THREE.MeshStandardMaterial({
-        color:0xff4081,
-        emissive:0xff1f7a,
-        emissiveIntensity:0.9
-    })
-);
-bigHeart.rotation.set(9.5, Math.PI, 0);
-scene.add(bigHeart);
+        /* SMALL HEART (SATELLITE) */
+        function createSatellite(note) {
 
+            let geo = makeHeart(0.7);
 
-/* ================================
-   SATELLITE HEARTS
-================================ */
-let notes = [];
+            let color = note.mood === "buon" ? 0x7ab8ff : 0xff8aa0;
+            let glow = note.mood === "buon" ? 0x2f90ff : 0xff4d6d;
 
-/* Load note từ backend */
-async function loadNotes() {
-    const res = await fetch("https://lovedate-x1j3.onrender.com/notes"); // sửa URL khi deploy
-    notes = await res.json();
-    notes.forEach(n => createSatellite(n));
-}
-loadNotes();
+            let mesh = new THREE.Mesh(
+                geo,
+                new THREE.MeshStandardMaterial({
+                    color,
+                    emissive: glow,
+                    emissiveIntensity: note.mood === "buon" ? 0.3 : 0.9
+                })
+            );
 
+            mesh.rotation.set(9.5, Math.PI, 0);
 
-/* Tạo trái tim nhỏ */
-let satellites = [];
+            mesh.userData = {
+                text: note.text,
+                img: note.img,
+                mood: note.mood,
+                reply: note.reply || null,   // <-- NEW
+                r: 65 + Math.random() * 25,
+                speed: 0.004 + Math.random() * 0.008,
+                angle: Math.random() * Math.PI * 2
+            };
 
-function createSatellite(note) {
-    let geo = makeHeart(0.7);
+            satellites.push(mesh);
+            scene.add(mesh);
+        }
 
-    let color = note.mood === "buon" ? 0x7ab8ff : 0xff8aa0;
-    let glow  = note.mood === "buon" ? 0x2f90ff : 0xff4d6d;
+        /* CLICK TO SHOW POPUP */
+        const ray = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
 
-    let mesh = new THREE.Mesh(
-        geo,
-        new THREE.MeshStandardMaterial({
-            color,
-            emissive:glow,
-            emissiveIntensity: note.mood === "buon" ? 0.3 : 0.9
-        })
-    );
+        addEventListener("click", e => {
+            if (e.target.closest("#addBox")) return;
+            mouse.x = (e.clientX / innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+            ray.setFromCamera(mouse, camera);
 
-    mesh.rotation.set(9.5, Math.PI, 0);
+            let hit = ray.intersectObjects(satellites);
+            if (hit.length) showNotePopup(hit[0].object.userData);
+        });
 
-    mesh.userData = {
-        text: note.text,
-        img: note.img,
-        mood: note.mood,
-        r: 65 + Math.random()*25,
-        speed: 0.004 + Math.random()*0.008,
-        angle: Math.random()*Math.PI*2
-    };
+        /* ============================
+            SHOW POPUP WITH REPLY
+        ============================ */
 
-    satellites.push(mesh);
-    scene.add(mesh);
-}
+        function showNotePopup(d) {
+            let box = document.getElementById("popup-content");
+            let moodClass = d.mood === "buon" ? "buon" : "vui";
 
-
-/* ================================
-   CLICK → SHOW POPUP
-================================ */
-const ray = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-addEventListener("click", e => {
-    if (e.target.closest("#addBox")) return;
-    mouse.x = (e.clientX/innerWidth)*2 - 1;
-    mouse.y = -(e.clientY/innerHeight)*2 + 1;
-
-    ray.setFromCamera(mouse, camera);
-    let hit = ray.intersectObjects(satellites);
-
-    if (hit.length) showNotePopup(hit[0].object.userData);
-});
-
-function showNotePopup(d) {
-    let box = document.getElementById("popup-content");
-    let moodClass = d.mood === "buon" ? "buon" : "vui";
-
-    if (d.img) {
-        box.innerHTML = `
-            <div class="note-letter">
-                <img class="note-img" src="${d.img}">
-                <div class="note-paper ${moodClass}">${d.text}</div>
+            let replyHTML = "";
+            if (d.reply) {
+                replyHTML = `
+            <div style="
+                margin-top:14px;
+                padding:10px 12px;
+                background:#fff7d6;
+                border-left:4px solid #ffcc66;
+                border-radius:8px;
+                font-size:16px;
+                display:flex;
+                gap:6px;
+                align-items:flex-start;
+            ">
+                <b>Phản hồi ❤️:</b>
+                <span style="white-space:pre-wrap;">${d.reply}</span>
             </div>
         `;
-    } else {
-        box.innerHTML = `
-            <div class="note-paper ${moodClass} center-note">${d.text}</div>
+            }
+
+            if (d.img) {
+                box.innerHTML = `
+            <div class="note-letter">
+                <img class="note-img" src="${d.img}">
+                <div>
+                    <div class="note-paper ${moodClass}">${d.text}</div>
+                    ${replyHTML}
+                </div>
+            </div>
         `;
-    }
+            } else {
+                box.innerHTML = `
+            <div class="note-paper ${moodClass} center-note">${d.text}</div>
+            ${replyHTML}
+        `;
+            }
 
-    popup.style.display = "flex";
-}
+            popup.style.display = "flex";
+        }
 
 
-/* ================================
-   ADD NOTE (Lưu backend)
-================================ */
-addBtn.onclick = () => addPopup.style.display = "flex";
+        /* ADD NOTE */
+        addBtn.onclick = () => addPopup.style.display = "flex";
 
-async function addNote() {
-    const text = noteText.value;
-    const file = noteImg.files[0];
-    const mood = document.querySelector("input[name='mood']:checked").value;
+        async function addNote() {
+            const text = noteText.value;
+            const file = noteImg.files[0];
+            const mood = document.querySelector("input[name='mood']:checked").value;
 
-    if (!text.trim() && !file) {
-        alert("Nhập nội dung hoặc ảnh!");
-        return;
-    }
+            if (!text.trim() && !file) {
+                alert("Nhập nội dung hoặc ảnh!");
+                return;
+            }
 
-    let imgBase64 = null;
+            let imgBase64 = null;
 
-    if (file) {
-        imgBase64 = await new Promise(resolve => {
-            let r = new FileReader();
-            r.onload = () => resolve(r.result);
-            r.readAsDataURL(file);
+            if (file) {
+                imgBase64 = await new Promise(resolve => {
+                    let r = new FileReader();
+                    r.onload = () => resolve(r.result);
+                    r.readAsDataURL(file);
+                });
+            }
+
+            let note = { text, img: imgBase64, mood, createdAt: Date.now() };
+
+            await fetch("https://lovedate-x1j3.onrender.com/addNote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(note)
+            });
+
+            createSatellite(note);
+
+            addPopup.style.display = "none";
+            noteText.value = "";
+            noteImg.value = "";
+        }
+
+        /* ANIMATION LOOP */
+        function animate() {
+            requestAnimationFrame(animate);
+
+            bigHeart.rotation.y += 0.005;
+
+            satellites.forEach(s => {
+                s.userData.angle += s.userData.speed;
+
+                s.position.set(
+                    Math.cos(s.userData.angle) * s.userData.r,
+                    Math.sin(s.userData.angle * 0.6) * 25,
+                    Math.sin(s.userData.angle) * s.userData.r
+                );
+
+                s.rotation.y += 0.03;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        /* RESIZE */
+        addEventListener("resize", () => {
+            renderer.setSize(innerWidth, innerHeight);
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
         });
-    }
-
-    let note = { text, img: imgBase64, mood, createdAt: Date.now() };
-
-    /* Gửi backend lưu MongoDB */
-    await fetch("https://lovedate-x1j3.onrender.com/addNote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(note)
-    });
-
-    /* Tạo vệ tinh ngay */
-    createSatellite(note);
-
-    addPopup.style.display = "none";
-    noteText.value = "";
-    noteImg.value = "";
-}
-
-
-/* ================================
-   ANIMATION LOOP
-================================ */
-function animate() {
-    requestAnimationFrame(animate);
-
-    bigHeart.rotation.y += 0.005;
-
-    satellites.forEach(s => {
-        s.userData.angle += s.userData.speed;
-
-        s.position.set(
-            Math.cos(s.userData.angle) * s.userData.r,
-            Math.sin(s.userData.angle * 0.6) * 25,
-            Math.sin(s.userData.angle) * s.userData.r
-        );
-
-        s.rotation.y += 0.03;
-    });
-
-    renderer.render(scene, camera);
-}
-animate();
-
-
-/* RESIZE */
-addEventListener("resize", () => {
-    renderer.setSize(innerWidth, innerHeight);
-    camera.aspect = innerWidth/innerHeight;
-    camera.updateProjectionMatrix();
-});
-</script>
+    </script>
 
 </body>
+
 </html>
